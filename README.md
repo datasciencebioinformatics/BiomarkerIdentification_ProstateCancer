@@ -2,12 +2,6 @@
 
 ## Pre-processment in bash 
 ### 1- Set up the Project_Configuration.txt file
-#### project_folder    : /home/felipe/Documentos/BiomarkerIdentification_ProstateCancer/
-#### Manifest file     : gdc_manifest.2026-03-31.143944.txt
-#### Metadata file     : metadata.cohort.2026-03-31.json
-#### Sample sheet file : gdc_sample_sheet.2026-03-31.tsv
-#### Biospecimen file  : biospecimen.cohort.2026-03-31.tar.gz
-#### Clinical file     : clinical.cohort.2026-03-31.tar.gz
 Project_Configuration.txt
 
 
