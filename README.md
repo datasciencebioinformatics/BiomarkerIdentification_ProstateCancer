@@ -4,7 +4,6 @@
 ### 1- Set up the Project_Configuration.txt file
 Project_Configuration.txt
 
-
 ### 2- gdc-client command line to download the samples from the PortalGdcCancer cancer database
 gdc-client download -m $project_folder$path_to_gdc_manifest_file --dir $project_folder
 
