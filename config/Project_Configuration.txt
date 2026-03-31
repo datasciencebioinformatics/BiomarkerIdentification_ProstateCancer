@@ -1,0 +1,6 @@
+project_folder="/home/felipe/Documentos/BiomarkerIdentification_IntestineCancer/
+Manifest_file="gdc_manifest.2026-03-31.143944.txt"
+Metadata_file="metadata.cohort.2026-03-31.json"
+Sample_sheet_file="gdc_sample_sheet.2026-03-31.tsv"
+Biospecimen_file="biospecimen.cohort.2026-03-31.tar.gz"
+Clinical_file="clinical.cohort.2026-03-31.tar.gz"
