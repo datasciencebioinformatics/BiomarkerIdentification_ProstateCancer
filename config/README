@@ -1,1 +1,27 @@
+#### project_folder
+#### Manifest file
+#### Metadata file
+#### Sample sheet file
+#### Biospecimen file
+#### Clinical file
+project_folder="/home/felipe/Downloads/BiomarkerIdentification_ProstateCancer/"
+Manifest_file=$project_folder"gdc_manifest.2026-04-01.111842.txt"
+Metadata_file=$project_folder"metadata.cohort.2026-04-01.json"
+Sample_sheet_file=$project_folder"gdc_sample_sheet.2026-04-01.tsv"
+Biospecimen_file=$project_folder"biospecimen.cohort.2026-04-01.tar.gz"
+Clinical_file=$project_folder"clinical.cohort.2026-04-01.tar.gz"
 
+### Filter to keep only the STAR - Counts data
+star_gene_counts_sample_sheet_file=$project_folder"gdc_sample_sheet_star_gene_counts.tsv"
+star_gene_counts_manifest_file=$project_folder"gdc_manifest_star_gene_counts.tsv"
+
+# Filter the list
+head -n 1 $Sample_sheet_file  >  $star_gene_counts_sample_sheet_file
+cat $Sample_sheet_file | grep "rna_seq.augmented_star_gene_counts.tsv" >> $star_gene_counts_sample_sheet_file
+
+# Take the head
+head -n 1 $Manifest_file  >  $star_gene_counts_manifest_file
+cat $Manifest_file | grep "rna_seq.augmented_star_gene_counts.tsv"   >> $star_gene_counts_manifest_file
+
+# Download the data
+gdc-client download -m $star_gene_counts_manifest_file --dir $project_folder
