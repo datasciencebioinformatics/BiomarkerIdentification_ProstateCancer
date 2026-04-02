@@ -40,10 +40,14 @@ merge_clinical_sample<-merge(clinical_data,sample_data,by="cases.case_id")
 metadata_table<-merge(merge_clinical_sample,sample_sheet_data,by.x="cases.submitter_id.x",by.y="Case.ID")
 
 # Take only the collumns of interest
-metadata_table<-unique(metadata_table[,c("cases.submitter_id.x","cases.case_id","diagnoses.ajcc_clinical_t","File.ID","File.Name")])
-
+metadata_table<-unique(metadata_table[,c("cases.submitter_id.x","cases.case_id","samples.tissue_type","diagnoses.ajcc_clinical_t","File.ID","File.Name")])
 
 # Write tsv file
 write_tsv(metadata_table, paste(project_folder,"tables/metadata_table.tsv",sep=""))
 ###################################################################################
-# For each file in the sample_sheet_data, take the File Name, Case ID, Tissue Type
+# For each file in the sample_sheet_data, read the gene counts data
+for (sample in rownames(sample_sheet_data))
+{
+
+}
+
