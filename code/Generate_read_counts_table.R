@@ -76,5 +76,7 @@ for (sample in rownames(sample_sheet_data))
   # Add to table
   read_counts_table<-cbind(read_counts_table,df_counts_table)
 }
+# Remove first collumn
+read_counts_table<-read_counts_table[,-1]
 
 
