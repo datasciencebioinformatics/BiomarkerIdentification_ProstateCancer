@@ -12,9 +12,6 @@ Biospecimen_file=$project_folder"biospecimen.cohort.2026-04-02.tar.gz"
 Clinical_file=$project_folder"clinical.cohort.2026-04-02.tar.gz"
 data_folder=$project_folder"/data/"
 
-# Download data from gdc cancer portal
-gdc-client download -m $star_gene_counts_manifest_file --dir $project_folder
-
 ### Filter to keep only the STAR - Counts data
 star_gene_counts_sample_sheet_file=$project_folder"gdc_sample_sheet_star_gene_counts.tsv"
 star_gene_counts_manifest_file=$project_folder"gdc_manifest_star_gene_counts.tsv"
