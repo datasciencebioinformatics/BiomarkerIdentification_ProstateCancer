@@ -48,8 +48,10 @@ for (Biomarker in known_biomarkers_data$Biomarker)
 known_biomarker<-unique(as.vector(df_biomaker_genes$genes))
 
 # Take the name of the differentially expressed genes in the correspondence_table
-res_tumor_normal
-correspondence_table
+res_tumor_normal<-cbind( gene_name=c(correspondence_table[rownames(res_tumor_normal),"gene_name"]),res_tumor_normal)
+
+# Selected biomarkers
+Selected_biomarkers<-res_tumor_normal[which(res_tumor_normal$gene_name %in% known_biomarker),]
 
 
 
