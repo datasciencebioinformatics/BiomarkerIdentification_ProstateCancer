@@ -1,5 +1,6 @@
 # BiomarkerIdentification_ProstateCancer
 project_folder="/home/felipe/Documents/BiomarkerIdentification_ProstateCancer/"
+project_folder="C:/Users/felip/OneDrive/Documentos/GitHub/BiomarkerIdentification_ProstateCancer/"
 
 ## Differential expression framework in R
 ### 1- Load R packages
