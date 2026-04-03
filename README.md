@@ -11,6 +11,14 @@ source(paste(project_folder,"/code/Generate_read_counts_table.R",sep=""))
 ### 3- Differential expression analyss
 source(paste(project_folder,"/code/Differential_Expression_Analysis.R",sep=""))
 
+### 4- Biomarkers identification
+source(paste(project_folder,"/code/Biomarkers_Identification.R",sep=""))
+
+### 5- Biomarkers assessment
+source(paste(project_folder,"/code/Biomarkers_Assessment.R",sep=""))
+
+
+
 
 
 
