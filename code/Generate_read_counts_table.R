@@ -1,11 +1,5 @@
 ###################################################################################
 # Set the project configuration
-# Set the path to manifest file
-Manifest_file=paste(project_folder,"metadata/gdc_manifest.2026-04-05.155802.txt",sep="")
-
-# Set the path to Sample sheet file
-Sample_sheet_file=paste(project_folder,"metadata/gdc_sample_sheet.2026-04-05.tsv",sep="")
-
 # Set the path to Sample sheet filtered file
 Sample_sheet_filtered_file=paste(project_folder,"metadata/gdc_sample_sheet_star_gene_counts.tsv",sep="")
 
