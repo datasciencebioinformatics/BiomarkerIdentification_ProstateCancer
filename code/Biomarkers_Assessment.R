@@ -1,9 +1,9 @@
 # 2. Basic plot
 # 1. Transform data (vst is recommended for large datasets)
-vsd <- vst(dds, blind = FALSE)
+vsd_tumor_normal <- vst(res_tumor_normal, blind = FALSE)
 
 # 1. Extract PCA data
-pcaData <- plotPCA(vsd, intgroup = c("Tissue.Type"), returnData = TRUE)
+pcaData <- plotPCA(vsd_tumor_normal, intgroup = c("Tissue.Type"), returnData = TRUE)
 
 # 2. Calculate percentage of variance for axis labels
 percentVar <- round(100 * attr(pcaData, "percentVar"))
