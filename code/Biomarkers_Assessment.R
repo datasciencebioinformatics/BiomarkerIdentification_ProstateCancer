@@ -34,6 +34,7 @@ cbind(gene_id=rownames(read_counts_table_tpm,read_counts_table_tpm)
 # First, compile data.frame with 
 # Take p-value
 df_mean<-data.frame(
+    foldChange_Tumor_Normal=rowMeans(read_counts_table_tpm[res_tumor_normal$gene,tumor_sample_ids])/rowMeans(read_counts_table_tpm[res_tumor_normal$gene,normal_sample_ids]),
     avg.normal=rowMeans(read_counts_table_tpm[res_tumor_normal$gene,normal_sample_ids]),
     std.normal=0,
     avg.tumor=rowMeans(read_counts_table_tpm[res_tumor_normal$gene,tumor_sample_ids]),
@@ -52,7 +53,11 @@ for (gene in rownames(df_mean))
   df_mean[gene,"std.metastatic"]<-sd(unstranded_data[gene,metastatic_sample_ids])  
 }      
 
-# Add the Gene smbol to the table      
+# Add the Gene smbol to the table
+df_biomaker_genes
+
+#
+Biomarkers whose fold change (FC) was ≥50 and average TPM of control samples ≤ 10.
 
 
 # Save list
