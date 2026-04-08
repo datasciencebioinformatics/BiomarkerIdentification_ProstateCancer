@@ -6,8 +6,6 @@ Sample_sheet_filtered_file=paste(project_folder,"metadata/gdc_sample_sheet_star_
 # Set the path to clinical data file
 clinical_data_file=paste(project_folder,"metadata/clinical.tsv",sep="")
 
-# Set the path to sample data file
-samples_data_file=paste(project_folder,"metadata/sample.tsv",sep="")
 
 # Take the list of gene ids
 gene_ids_file<-paste(project_folder,"metadata/gene_ids.txt",sep="")
@@ -18,11 +16,12 @@ sample_sheet_data<-read.delim(file = Sample_sheet_filtered_file, sep = '\t', hea
 # Load sample sheet data
 clinical_data<-read.delim(file = clinical_data_file, sep = '\t', header = TRUE,fill=TRUE)
 
-# Load sample sheet data
-sample_data<-read.delim(file = samples_data_file, sep = '\t', header = TRUE,fill=TRUE)
+
+clinical_data$ID     <-clinical_data$cases.submitter_id
+sample_sheet_data$ID <-sample_sheet_data$Case.ID
 
 # Merge clinical and sample sheet
-merge(clinical_data,sample_sheet_data, by.x="cases.case_id", by.y="Sample.ID")
+clinical_data<-merge(clinical_data,sample_sheet_data, by="ID")
 
 # Load gene ids data
 gene_ids_data<-read.delim(file = gene_ids_file, sep = '\t', header = TRUE,fill=TRUE)
