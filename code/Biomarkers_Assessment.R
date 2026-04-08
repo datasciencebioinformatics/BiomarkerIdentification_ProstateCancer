@@ -66,37 +66,12 @@ rownames(df_tumor_gene)<-df_tumor_gene$sample_id
 # Add to collumn
 df_tumor_gene<-cbind(gene=rownames(tumor_biomarkers),sample_sheet_data[rownames(df_tumor_gene),],df_tumor_gene)
 #######################################################################################################################################
-# Melt data
-melt_merge_water_viscous           <-reshape2::melt(selected_entries)
-melt_merge_water_viscous_all_models<-reshape2::melt(selected_entries_all_models)
-
-# Subset variables
-melt_merge_water_viscous<-melt_merge_water_viscous[which(melt_merge_water_viscous$variable %in% c("Q","Tm.i","Tm.o","P1","P2","RPM","T","fluid","equip","pi","mi","mo")),]
-melt_merge_water_viscous_effciciency<-melt_merge_water_viscous[which(melt_merge_water_viscous$variable %in% c("n","BHP","H")),]
-melt_merge_water_viscous_all_model<-melt_merge_water_viscous_all_models[which(melt_merge_water_viscous_all_models$variable %in% c("Q","Tm.i","Tm.o","P1","P2","RPM","T","fluid","equip","pi","mi","mo")),]
-melt_merge_water_viscous_all_model_efficiency<-melt_merge_water_viscous_all_models[which(melt_merge_water_viscous_all_models$variable %in% c("n","BHP","H")),]
-
-# Visualize: Specify the comparisons you want
-my_comparisons <- list( c("2400", "3000"), c("3000", "3500"),c("2400", "3500") )
-my_comparisons_2 <- list( c("P100", "P37"), c("P100", "P47"),c("P100", "P62"),c("P37", "P62"),c("P47", "P62") )
-
-
 # Visualize: Specify the comparisons you want
 my_comparisons <- list( c("Tumor", "Normal"))
 
 # Save plot
 png(filename=paste(output_dir,paste("pca_boxplots_","3500_viscosity_128_p47",".png",sep=""),sep=""), width = 25, height = 30, res=600, units = "cm")  
   # Plot the OOB errors
-  ggplot(data = df_tumor_gene, aes(x = Tissue.Type, y =tpm)) + geom_boxplot()  + theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +theme(text=element_text(size=12)) +theme(legend.position="none")  + facet_wrap(vars(variable),nrow=3,ncol=3, scale="free") + stat_compare_means(label = "p.signif", method = "t.test",comparisons = my_comparisons)
+  ggplot(data = df_tumor_gene[,c("Tissue.Type","tpm")], aes(x = Tissue.Type, y =tpm)) +  geom_boxplot() + theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +theme(text=element_text(size=12)) +theme(legend.position="none")  + stat_compare_means(label = "p.signif", method = "t.test",comparisons = my_comparisons) + ggtitle(tumor_biomarkers$gene_name)
 dev.off()
-
-# Add t.test 
-# + stat_compare_means(label = "p.signif", method = "t.test",comparisons = my_comparisons)
-# ggplot(data = df_tumor_gene[,c("Tissue.Type","tpm")], aes(x = Tissue.Type, y =tpm)) +  geom_boxplot() + theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +theme(text=element_text(size=12)) +theme(legend.position="none") 
-  
-dev.off()
-
-
-df_tumor_gene$Tissue.Type
-
 
