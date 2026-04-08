@@ -73,10 +73,6 @@ avg.stage_II + std.stage_III
 clinical_data_sub<-clinical_data[,c("cases.case_id","stage")]
 
 
-
-rownames(df_tumor_gene) %in% clinical_data_sub$cases.case_id
-df_tumor_gene[clinical_data_sub$cases.case_id,]
-
 #######################################################################################################################################
 # Visualize: Specify the comparisons you want
 my_comparisons <- list( c("Tumor", "Normal"))
