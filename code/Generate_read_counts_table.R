@@ -26,6 +26,15 @@ clinical_data<-merge(clinical_data,sample_sheet_data, by="ID")
 # Load gene ids data
 gene_ids_data<-read.delim(file = gene_ids_file, sep = '\t', header = TRUE,fill=TRUE)
 ###################################################################################
+# Add stages
+# Add state collumn
+clinical_data$stage<-""
+
+# Set stages
+clinical_data[which(clinical_data$diagnoses.ajcc_clinical_t %in% c("T1b", "T1c")),"stage"]              <-"stage_1"
+clinical_data[which(clinical_data$diagnoses.ajcc_clinical_t %in% c("T2", "T2a", "T2b", "T2c")),"stage"] <-"stage_2"
+clinical_data[which(clinical_data$diagnoses.ajcc_clinical_t %in% c("T3a", "T3b")),"stage"]              <-"stage_3"
+###################################################################################
 # Star dataframe with all gene ids unstranded
 read_counts_table<-data.frame(gene_id=as.vector(gene_ids_data[,1]))
 
