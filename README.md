@@ -21,18 +21,24 @@ source(paste(project_folder,"/code/Biomarkers_Identification.R",sep=""))
 ### 5- Biomarkers assessment
 source(paste(project_folder,"/code/Biomarkers_Assessment.R",sep=""))
 
-### 6- Select biomartkers with stepAIC
-source(paste(project_folder,"/code/SelectBiomartkers_with_stepAIC.R",sep=""))
+# lm method was used to fit the trainning set on the surrogate models
+multiple_linear_regression_lm <- lm(surrogate_model, data = training_set)
 
-### 7- Unsupervised analyses
-#### Heatmap with the tumor genes
-#### Add information about stages
-source(paste(project_folder,"/code/Unsupervised_Analyses.R",sep=""))
+# Perform stepwise selection (direction "both", "backward", "forward")
+surrogate_model_final_lm <- stepAIC(multiple_linear_regression_lm, direction = "backward", trace = 0)
+
+# lm method was used to fit the trainning set on the selected model
+multiple_linear_regression_lm_selected<-lm(surrogate_model_final_lm, data = training_set)
 
 ### 8- Decision tree analyses
 #### StepAIC variable selection from tumor_genes
 #### Decision tree tumor_genes
 source(paste(project_folder,"/code/DecisionTree_Analyses.R",sep=""))
+  
+
+### 6- Select biomartkers with stepAIC
+source(paste(project_folder,"/code/SelectBiomartkers_with_stepAIC.R",sep=""))
+
 
 
 
