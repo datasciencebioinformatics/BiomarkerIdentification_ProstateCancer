@@ -13,6 +13,7 @@ read_counts_table_tpm<-read_counts_table_tpm[,genes]
 # Train bayesian network from discrete data 
 colnames(read_counts_table_tpm)<- # Use correspondence_table to set gene symbols as colnames
 #########################################################################################################
+# Add stages collumns
 read_counts_table_tpm$n<-cut(read_counts_table_tpm$n, quantile(read_counts_table_tpm$n, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
 read_counts_table_tpm$BHP<-cut(read_counts_table_tpm$BHP, quantile(read_counts_table_tpm$BHP, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
 read_counts_table_tpm$H<-cut(read_counts_table_tpm$H, quantile(read_counts_table_tpm$H, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
