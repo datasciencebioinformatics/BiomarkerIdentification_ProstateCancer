@@ -2,10 +2,10 @@
 # Store nome of analyzed genes
 # Flow rate	Inlet Temperature T1 	Inlet Temperature T2 			Inlet Pressure P1	Outlet Pressure P2	Shaft Torque
 # TO DO : 
-genes<-  res_tumor_normal # selected genes
+genes<-  rownames(res_tumor_normal) # selected genes
 
 # Convert RPM to numeric
-read_counts_table_tpm<-read_counts_table_tpm[,genes]
+read_counts_table_tpm<-read_counts_table_tpm[genes,]
 
 #########################################################################################################
 # https://graysonwhite.com/gglm/reference/gglm.html
