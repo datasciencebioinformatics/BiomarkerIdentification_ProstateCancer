@@ -13,22 +13,17 @@ read_counts_table_tpm<-read_counts_table_tpm[,genes]
 # Train bayesian network from discrete data 
 colnames(read_counts_table_tpm)<- # Use correspondence_table to set gene symbols as colnames
 #########################################################################################################
-# Add stages collumns
-read_counts_table_tpm$n<-cut(read_counts_table_tpm$n, quantile(read_counts_table_tpm$n, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
-read_counts_table_tpm$BHP<-cut(read_counts_table_tpm$BHP, quantile(read_counts_table_tpm$BHP, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
-read_counts_table_tpm$H<-cut(read_counts_table_tpm$H, quantile(read_counts_table_tpm$H, c(0:3/3)), include.lowest = T, labels = c("Low", "Medium", "High"))
-###########################################################################################################
 # Specifying clustering from distance matrix
-normalized_dist_viscous = dist(read_counts_table_tpm[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo")])
+normalized_dist_tumor = dist(read_counts_table_tpm)
 
-# dcols_normalized_dist_viscous
-normalized_dcols_viscous = dist(t(read_counts_table_tpm[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo")]))
+# dcols_normalized_dist_tumor
+normalized_dcols_tumor = dist(t(read_counts_table_tpm))
 
 # kmeans
-kmeans_clusters<-c(kmeans(read_counts_table_tpm[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo")], centers=6, iter.max = 10, nstart = 1, trace = FALSE)$cluster)
+kmeans_clusters<-c(kmeans(read_counts_table_tpm, centers=6, iter.max = 10, nstart = 1, trace = FALSE)$cluster)
 #########################################################################################################
 # Subset the 
-df_normalized_merge<-read_counts_table_tpm[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo","n","BHP","H")]
+df_normalized_merge<-read_counts_table_tpm
 
 # Force rownames
 rownames(df_normalized_merge)<-paste0("Signal_", seq(nrow(df_normalized_merge)))
@@ -54,5 +49,5 @@ df_normalized_merge<-df_normalized_merge[as.integer(order_rows),]
 # Plot_raw_vibration_data.png                                                                                                            
 png(filename=paste(project_folder,"ESPsViscousFluidFlow_Pheatmap.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
   # Add annotation : bhp, head, efficiency
-  pheatmap(df_normalized_merge[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo")] , clustering_distance_cols = normalized_dcols_viscous,show_rownames = F,annotation_row = annotation_row,annotation_colors=ann_colors,cluster_rows = FALSE,cluster_cols = FALSE)
+  pheatmap(df_normalized_merge[,c("Q","Tm.i","Tm.o","P1","P2","T","pi","mi","mo")] , clustering_distance_cols = normalized_dcols_tumor,show_rownames = F,annotation_row = annotation_row,annotation_colors=ann_colors,cluster_rows = FALSE,cluster_cols = FALSE)
 dev.off()
