@@ -13,10 +13,6 @@ read_counts_table_tpm_disc<-cbind(t(read_counts_table_tpm_disc),Tissue_Type=samp
 # Save raw, tpm and discrete values11
 # write_xlsx(list(raw = read_counts_table, tpm = read_counts_table_tpm, discrete =discretizeDF(read_counts_table_tpm, default = list(method = "interval", breaks = 3, labels = c("low","medium", "high")))), path = paste(output_dir,"rpart_Tissue_Type.xlsx",sep=""))
 #########################################################################################################
-# Select 80% as trainning set/20% the reamaining data
-trainning_set_ids<-sample(colnames(read_counts_table_tpm), size=round(length(colnames(read_counts_table_tpm))*0.75), replace = FALSE)
-testing_set_ids  <-colnames(read_counts_table_tpm)[!colnames(read_counts_table_tpm) %in% trainning_set_ids]
-
 # Compute rpart model 
 Tissue_Type_rpart<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc),method = "class")
 
