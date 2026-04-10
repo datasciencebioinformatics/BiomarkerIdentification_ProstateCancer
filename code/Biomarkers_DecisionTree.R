@@ -23,7 +23,7 @@ Tissue_Type_rpart<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_ta
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
   # Plot the bayesian network graph
-  fancyRpartPlot(Efficiency_rpart, caption = NULL, sub=NULL)  
+  fancyRpartPlot(Tissue_Type_rpart, caption = NULL, sub=NULL)  
 dev.off()
 
 #########################################################################################################
