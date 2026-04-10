@@ -8,4 +8,6 @@ library(rpart)
 library(rattle)
 library("stringr")
 library("arules")
+library("bnlearn")
+
 
