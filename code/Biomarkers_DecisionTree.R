@@ -22,6 +22,12 @@ png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, heigh
   fancyRpartPlot(Tissue_Type_rpart, caption = NULL, sub=NULL)  
 dev.off()
 
+#########################################################################################################
+set.seed(123) # Define a semente para reprodutibilidade
+sample_ids_trainning<-sample(rownames(read_counts_table_tpm_disc), dim(read_counts_table_tpm_disc)[1]*0.75)
+sample_ids_testing  <-rownames(read_counts_table_tpm_disc)[!rownames(read_counts_table_tpm_disc) %in% sample_ids_trainning]
+
+
 
 #########################################################################################################
 
