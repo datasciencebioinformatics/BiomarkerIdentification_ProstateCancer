@@ -1,8 +1,6 @@
 #########################################################################################################
 # https://graysonwhite.com/gglm/reference/gglm.html
 # Provides four standard visual model diagnostic plots with `ggplot2`.
-# Train bayesian network from discrete data 
-colnames(subselect_merge_water_viscous)<-c("Q","Tm.i","Tm.o","P1","P2","RPM","T","pi","mi","mo","n","BHP","H")
 #########################################################################################################
 # Calculate the lm
 Tissue_type_lm<-lm(formula=Tissue_type ~ ., data=read_counts_table_tpm)
