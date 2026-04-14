@@ -22,9 +22,30 @@ melt_varImp_results<-melt(df_varImp_results)
 p <- ggplot(data=melt_varImp_results, aes(x=Var, y=value)) + geom_bar(stat="identity", color="black", position=position_dodge()) + theme_minimal() + facet_grid(rows = vars(variable),scale="free")
 
 # bwplot               
-png(filename=paste(output_dir,"VarImp_Efficency_BHP_H.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
+png(filename=paste(output_dir,"rf_varIMP_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
   # Plot the OOB errors
   p + ggtitle("Variable importance")
 dev.off()
 
 ########################################################################################################
+
+#########################################################################################################
+set.seed(123) # Define a semente para reprodutibilidade
+sample_ids_trainning<-sample(rownames(read_counts_table_tpm), dim(read_counts_table_tpm)[1]*0.75)
+sample_ids_testing  <-rownames(read_counts_table_tpm)[!rownames(read_counts_table_tpm) %in% sample_ids_trainning]
+
+# Compute rpart model trainning only
+Tissue_type_randomForest<-rfsrc(formula=Tissue_type ~ ., data=read_counts_table_tpm)
+
+# Separate trainning versus testing
+Tissue_type_randomForest_trainning_testing<-rfsrc(formula=Tissue_type ~ ., data=data.frame(read_counts_table_tpm[sample_ids_trainning,]))
+
+#Predicted data
+predicted_training_set         <- as.vector(predict(Tissue_type_randomForest, newdata = data.frame(read_counts_table_tpm), type = "class"))
+
+# Predicted data - Separate trainning versus testing
+predicted_training_testing_set <- as.vector(predict(Tissue_type_randomForest_trainning_testing, newdata = data.frame(read_counts_table_tpm[sample_ids_testing,]), type = "class"))
+
+
+results_trainning <- confusionMatrix(data = factor(predicted_training_set), reference =  factor(data.frame(read_counts_table_tpm)$Tissue_Type))
+results_trainning_testing <- confusionMatrix(data = factor(predicted_training_testing_set), reference =  factor(data.frame(read_counts_table_tpm[sample_ids_testing,])$Tissue_Type))
