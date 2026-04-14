@@ -36,6 +36,8 @@ predicted_training_set         <- as.vector(predict(Tissue_Type_rpart, newdata =
 # Confusion matrix
 results_trainning <- confusionMatrix(data = factor(predicted_training_set), reference =  factor(data.frame(read_counts_table_tpm_disc)$Tissue_Type))
 
+write.table(data.frame(results_trainning$overall), file = paste(output_dir,"confusionMatrix_rpart.txt",sep=""),, sep = "\t", row.names = TRUE, append=FALSE)
+write.table(data.frame(results_trainning$table), file = paste(output_dir,"confusionMatrix_rpart.txt",sep=""),, sep = "\t", row.names = TRUE, append=TRUE)
 
 
 #########################################################################################################
