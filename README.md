@@ -35,7 +35,7 @@ source(paste(project_folder,"/code/Biomarkers_Assessment.R",sep=""))
 ### 7- Decision trees
 source(paste(project_folder,"/code/Biomarkers_DecisionTree.R",sep=""))
 
-### 8- Bayesiean Networks
+### 8- Bayesian Networks
 source(paste(project_folder,"/code/Biomarkers_BayesienaNetworks.R",sep=""))
 
 ### 9- Random Forest
