@@ -45,7 +45,7 @@ source(paste(project_folder,"/code/Biomarkers_RandomFortest.R",sep=""))
 source(paste(project_folder,"/code/Biomarkers_LinearRegression.R",sep=""))
 ###################################################################################################
 ### 11- Linear regression versus Random Forest (Association, varImp, minimal depth)
-source(paste(project_folder,"/code/Biomarkers_LinearRegression.R",sep=""))
+source(paste(project_folder,"/code/Biomarkers_LinearRegression_versus_RandomForest.R",sep=""))
 
 
 
