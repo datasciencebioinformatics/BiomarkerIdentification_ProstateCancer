@@ -3,7 +3,13 @@
 # Provides four standard visual model diagnostic plots with `ggplot2`.
 # Train bayesian network from discrete data 
 #########################################################################################################
-Tissue_type_randomForest<-rfsrc(formula=Tissue_type ~ ., data=read_counts_table_tpm)
+# Add tisue type to data.frame
+read_counts_table_tpm_complete<-data.frame(cbind(t(read_counts_table_tpm),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"]))
+
+# Convert to factor
+read_counts_table_tpm_complete$Tissue_Type<-factor(read_counts_table_tpm_complete[,"Tissue_Type"])
+
+Tissue_type_randomForest<-rfsrc(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_complete))
 
 #########################################################################################################
 # Save Efficiency, BHP and HEAD
