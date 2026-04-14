@@ -61,5 +61,11 @@ predicted_training_testing_set <- predict(bn_cancer_data_training_testing_set, n
 results_trainning <- confusionMatrix(data = factor(predicted_training), reference =  factor(data.frame(read_counts_table_tpm_disc)$Tissue_Type))
 results_trainning_testing <- confusionMatrix(data = factor(predicted_training_testing_set), reference =  factor(data.frame(read_counts_table_tpm_disc[sample_ids_testing,])$Tissue_Type))
 
+write.table(data.frame(results_trainning$overall), file = paste(output_dir,"confusionMatrix_bn_all.txt",sep=""),, sep = "\t", row.names = TRUE, append=FALSE)
+write.table(data.frame(results_trainning$table), file = paste(output_dir,"confusionMatrix_bn_all.txt",sep=""),, sep = "\t", row.names = TRUE, append=TRUE)
+
+write.table(data.frame(results_trainning_testing$overall), file = paste(output_dir,"confusionMatrix_bn_testing.txt",sep=""),, sep = "\t", row.names = TRUE, append=FALSE)
+write.table(data.frame(results_trainning_testing$table), file = paste(output_dir,"confusionMatrix_bn_testing.txt",sep=""),, sep = "\t", row.names = TRUE, append=TRUE)
+
 
 #########################################################################################################
