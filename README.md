@@ -23,7 +23,7 @@ source(paste(project_folder,"/code/Differential_Expression_Analysis.R",sep=""))
 ## Read differential expression results
 ##### dds_tumor_normal<-loadRDS(file = paste(output_dir,"dds_tumor_normal.rds",sep=""))
 ##### res_tumor_normal<-loadRDS(file = paste(output_dir,"res_tumor_normal",sep=""))
-###################################################################################################
+
 ## Biomarker assessment
 ### 5- Biomarkers identification
 source(paste(project_folder,"/code/Biomarkers_Identification.R",sep=""))
