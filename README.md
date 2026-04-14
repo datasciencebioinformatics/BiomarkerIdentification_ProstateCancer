@@ -21,8 +21,8 @@ source(paste(project_folder,"/code/Generate_read_counts_table.R",sep=""))
 source(paste(project_folder,"/code/Differential_Expression_Analysis.R",sep=""))
 ###################################################################################################
 ## Read differential expression results
-dds_tumor_normal<-loadRDS(file = paste(output_dir,"dds_tumor_normal.rds",sep=""))
-res_tumor_normal<-loadRDS(file = paste(output_dir,"res_tumor_normal",sep=""))
+##### dds_tumor_normal<-loadRDS(file = paste(output_dir,"dds_tumor_normal.rds",sep=""))
+##### res_tumor_normal<-loadRDS(file = paste(output_dir,"res_tumor_normal",sep=""))
 ###################################################################################################
 ## Biomarker assessment
 ### 5- Biomarkers identification
