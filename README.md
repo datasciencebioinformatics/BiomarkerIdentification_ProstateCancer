@@ -12,7 +12,6 @@ source(paste(project_folder,"/code/Load_All_R_Packages.R",sep=""))
 # Add the version control
 source(paste(project_folder,"/code/Version_Control.R",sep=""))
 
-
 ### 2- Generate read counts table 
 source(paste(project_folder,"/code/Generate_read_counts_table.R",sep=""))
 
@@ -27,6 +26,16 @@ source(paste(project_folder,"/code/Biomarkers_Assessment.R",sep=""))
 
 ### 6- Decision trees
 source(paste(project_folder,"/code/Biomarkers_DecisionTree.R",sep=""))
+
+### 7- Bayesiean Networks
+source(paste(project_folder,"/code/Biomarkers_BayesienaNetworks.R",sep=""))
+
+### 8- Random Forest
+source(paste(project_folder,"/code/Biomarkers_RandomFortest.R",sep=""))
+
+### 9- Linear regression
+source(paste(project_folder,"/code/Biomarkers_LinearRegression.R",sep=""))
+
 
 
 
