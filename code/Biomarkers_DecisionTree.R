@@ -33,13 +33,11 @@ Tissue_Type_rpart<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_ta
 # Separate trainning versus testing
 Tissue_Type_rpart_trainning_testing<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_trainning,]),method = "class")
 
-
 #Predicted data
 predicted_training_set         <- as.vector(predict(Tissue_Type_rpart, newdata = data.frame(read_counts_table_tpm_disc), type = "class"))
 
 # Predicted data - Separate trainning versus testing
-predicted_training_testing_set <- as.vector(predict(Tissue_Type_rpart, newdata = data.frame(read_counts_table_tpm_disc[sample_ids_testing,]), type = "class"))
-
+predicted_training_testing_set <- as.vector(predict(Tissue_Type_rpart_trainning_testing, newdata = data.frame(read_counts_table_tpm_disc[sample_ids_testing,]), type = "class"))
 
 results_trainning <- confusionMatrix(data = factor(predicted_training_set), reference =  factor(data.frame(read_counts_table_tpm_disc)$Tissue_Type))
 results_trainning_testing <- confusionMatrix(data = factor(predicted_training_testing_set), reference =  factor(data.frame(read_counts_table_tpm_disc[sample_ids_testing,])$Tissue_Type))
