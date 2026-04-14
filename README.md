@@ -36,13 +36,16 @@ source(paste(project_folder,"/code/Biomarkers_Assessment.R",sep=""))
 source(paste(project_folder,"/code/Biomarkers_DecisionTree.R",sep=""))
 
 ### 8- Bayesian Networks
-source(paste(project_folder,"/code/Biomarkers_BayesienaNetworks.R",sep=""))
+source(paste(project_folder,"/code/Biomarkers_BaysianNetwork.R",sep=""))
 
 ### 9- Random Forest
 source(paste(project_folder,"/code/Biomarkers_RandomFortest.R",sep=""))
 
 ### 10- Linear regression
 source(paste(project_folder,"/code/Biomarkers_LinearRegression.R",sep=""))
+
+### 11- Artificial neural networks
+source(paste(project_folder,"/code/Biomarkers_ArtificialNeuralNetworks.R",sep=""))
 ###################################################################################################
 ### 11- Linear regression versus Random Forest (Association, varImp, minimal depth)
 source(paste(project_folder,"/code/Biomarkers_LinearRegression_versus_RandomForest.R",sep=""))
