@@ -9,7 +9,8 @@ read_counts_table_tpm_complete<-data.frame(cbind(t(read_counts_table_tpm),Tissue
 # Convert to factor
 read_counts_table_tpm_complete$Tissue_Type<-factor(read_counts_table_tpm_complete[,"Tissue_Type"])
 
-Tissue_type_randomForest<-rfsrc(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_complete))
+# Split y and x variables
+Tissue_type_randomForest<-rfsrc(formula=Tissue_Type ~ ., data=read_counts_table_tpm_complete)
 
 #########################################################################################################
 # Save Efficiency, BHP and HEAD
