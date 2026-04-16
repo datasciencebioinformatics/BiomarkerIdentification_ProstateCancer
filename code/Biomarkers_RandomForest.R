@@ -10,9 +10,7 @@ df_t_read_counts_table_tpm<-data.frame(t(read_counts_table_tpm[rownames(res_tumo
 df_t_read_counts_table_tpm<-cbind(df_t_read_counts_table_tpm,Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"])
 
 # Tiddue data
-Tissue_type_randomForest <- randomForest(formula=Tissue_Type ~ .,  data = df_t_read_counts_table_tpm, method = "rf")
-Tissue_type_randomForest <- randomForest(x=data.frame(t(read_counts_table_tpm[rownames(res_tumor_normal),])),  y = sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"], method = "rf")
-
+Tissue_type_randomForest <- randomForest(x=data.frame(t(read_counts_table_tpm[rownames(res_tumor_normal),])),  y = as.numeric(as.factor(sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"])), method = "rf")
 #########################################################################################################
 # Save Efficiency, BHP and HEAD
 Tissue_type_results=vimp.rfsrc(Tissue_type_randomForest)$importance
