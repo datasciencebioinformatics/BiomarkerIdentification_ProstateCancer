@@ -12,6 +12,14 @@ read_counts_table_tpm_complete$Tissue_Type<-factor(read_counts_table_tpm_complet
 # Split y and x variables
 Tissue_type_randomForest<-rfsrc(formula=Tissue_Type ~ ., data=read_counts_table_tpm_complete)
 
+df_t_read_counts_table_tpm<-data.frame(t(read_counts_table_tpm))
+
+df_t_read_counts_table_tpm<-cbind(df_t_read_counts_table_tpm,Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"])
+
+
+# Tiddue data
+Tissue_type_randomForest <- randomForest(formula=Tissue_Type ~ .,  data = df_t_read_counts_table_tpm, method = "rf")
+
 #########################################################################################################
 # Save Efficiency, BHP and HEAD
 Tissue_type_results=vimp.rfsrc(Tissue_type_randomForest)$importance
