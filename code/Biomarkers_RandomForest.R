@@ -11,21 +11,28 @@ df_t_read_counts_table_tpm<-cbind(df_t_read_counts_table_tpm,Tissue_Type=sample_
 
 # Tiddue data
 Tissue_type_randomForest <- randomForest(x=data.frame(t(read_counts_table_tpm[rownames(res_tumor_normal),])),  y = as.numeric(as.factor(sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"])), method = "rf")
+
+# Save data.frame
+df_varImportance<-data.frame(importance(Tissue_type_randomForest))
+
+# Ascending
+df_varImportance <- data.frame(rownames(df_varImportance),IncNodePurity=df_varImportance,gene_names=correspondence_table[rownames(df_varImportance), "gene_name"])
+
+# Ascending
+df_varImportance <- df_varImportance[order(-df_varImportance$IncNodePurity), ]
+
+# bwplot               
+png(filename=paste(output_dir,"rf_varImp_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
+  # Plot the bayesian network graph
+  ggplot(df_varImportance[1:20,], aes(x = gene_names, y = IncNodePurity)) +
+  geom_bar(stat = "identity") +
+  coord_flip()+ theme_bw()
+dev.off()
+
+
+
+
 #########################################################################################################
-# Save Efficiency, BHP and HEAD
-Tissue_type_results=vimp.rfsrc(Tissue_type_randomForest)$importance
-
-# Caculate varImp for all the three models
-df_varImp_results<-data.frame(Efficiency=data.frame(Tissue_type_results))
-
-# Set the rownames
-df_varImp_results$Var<-rownames(df_varImp_results)
-
-# Melt the data
-melt_varImp_results<-melt(df_varImp_results)
-
-# Change the colors manually
-p <- ggplot(data=melt_varImp_results, aes(x=Var, y=value)) + geom_bar(stat="identity", color="black", position=position_dodge()) + theme_minimal() + facet_grid(rows = vars(variable),scale="free")
 
 # bwplot               
 png(filename=paste(output_dir,"rf_varIMP_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
