@@ -3,17 +3,8 @@
 # Provides four standard visual model diagnostic plots with `ggplot2`.
 # Train bayesian network from discrete data 
 #########################################################################################################
-# Add tisue type to data.frame
-read_counts_table_tpm_complete<-data.frame(cbind(t(read_counts_table_tpm[rownames(res_tumor_normal),]),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"]))
-
-# Convert to factor
-read_counts_table_tpm_complete$Tissue_Type<-factor(read_counts_table_tpm_complete[,"Tissue_Type"])
-
-# Split y and x variables
-Tissue_type_randomForest<-rfsrc(formula=Tissue_Type ~ ., data=read_counts_table_tpm_complete)
-
 # Take the dat.frame transposed
-df_t_read_counts_table_tpm<-data.frame(t(read_counts_table_tpm))
+df_t_read_counts_table_tpm<-data.frame(t(read_counts_table_tpm[rownames(res_tumor_normal),]))
 
 # Tsake the table
 df_t_read_counts_table_tpm<-cbind(df_t_read_counts_table_tpm,Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"])
