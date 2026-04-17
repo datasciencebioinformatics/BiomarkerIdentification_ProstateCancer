@@ -47,20 +47,6 @@ set.seed(123) # Define a semente para reprodutibilidade
 sample_ids_trainning<-sample(rownames(read_counts_table_tpm_disc), dim(read_counts_table_tpm_disc)[1]*0.50)
 sample_ids_testing  <-rownames(read_counts_table_tpm_disc)[!rownames(read_counts_table_tpm_disc) %in% sample_ids_trainning]
 
-# 1. Configurar o método de reamostragem (Validação Cruzada)
-# define trainControl
-# Define train control parameters (e.g., 10-fold cross-validation)
-# Custom summary function for MRE 
-# Custom summary function for MRE
-mreSummary <- function(data, lev = NULL, model = NULL) {
-	rmse=rmse(data$obs, data$pred) 
-	mae=mae(data$obs, data$pred)
-	mre=mre(data$obs, data$pred) 
-	cor=cor(data$obs, data$pred)
-  c(MRE = mre, RMSE=rmse, MAE = mae, Cor=cor)
-}
-train_control <- trainControl(method = "cv", number = 10, verboseIter = TRUE, summaryFunction = mreSummary)
-
 Tissue_Type_rpart_trainning<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_trainning,]),method = "class")
 Tissue_Type_rpart_testing  <-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_testing,]),method = "class")
 
