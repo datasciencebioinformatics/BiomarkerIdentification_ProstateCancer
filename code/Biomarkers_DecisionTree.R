@@ -1,12 +1,15 @@
 #########################################################################################################
 # Start data.frame
-df_read_counts_table_tpm_disc<- data.frame(matrix("", nrow = length(rownames(read_counts_table_tpm)), ncol = length(colnames(read_counts_table_tpm))))
+df_read_counts_table_tpm_disc          <- data.frame(matrix("", nrow = length(rownames(read_counts_table_tpm)), ncol = length(colnames(read_counts_table_tpm))))
+df_read_counts_table_tpm_disc_no_label <- data.frame(matrix("", nrow = length(rownames(read_counts_table_tpm)), ncol = length(colnames(read_counts_table_tpm))))
 
 # Set rownames()
 rownames(df_read_counts_table_tpm_disc)<-rownames(read_counts_table_tpm)
+rownames(df_read_counts_table_tpm_disc_no_label)<-rownames(read_counts_table_tpm)
 
 # Remove first collumn
 colnames(df_read_counts_table_tpm_disc)<-colnames(read_counts_table_tpm)
+colnames(df_read_counts_table_tpm_disc_no_label)<-colnames(read_counts_table_tpm)
 
 # Make data discrete
 # For each gene 
@@ -14,17 +17,15 @@ for (gene in rownames(read_counts_table_tpm))
 {
   # Take the discrete value
   a=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3,labels = c("low","medium", "high") , include.lowest = TRUE)
+  b=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3,labels = c("low","medium", "high") , include.lowest = TRUE)
 
   # add to vector
   df_read_counts_table_tpm_disc[gene,colnames(read_counts_table_tpm)]<-a
+
+  # add to vector
+  df_read_counts_table_tpm_disc_no_label[gene,colnames(read_counts_table_tpm)]<-b  
 }
 
-
-### discretize all numeric columns differently
-read_counts_table_tpm_disc <- discretizeDF(read_counts_table_tpm[rownames(res_tumor_normal),], default = list(
-  method = "interval", breaks = 3,
-  labels = c("low","medium", "high")
-))
 
 # Add tisue type to data.frame
 read_counts_table_tpm_disc<-cbind(t(read_counts_table_tpm_disc),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm_disc),"Tissue.Type"])
