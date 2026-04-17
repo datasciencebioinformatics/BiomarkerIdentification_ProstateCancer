@@ -17,7 +17,7 @@ for (gene in rownames(res_tumor_normal))
 {
   # Take the discrete value
   a=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3,labels = c("low","medium", "high") , include.lowest = TRUE)
-  b=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3,labels = c("low","medium", "high") , include.lowest = TRUE)
+  b=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3, include.lowest = TRUE)
 
   # add to vector
   df_read_counts_table_tpm_disc[gene,colnames(read_counts_table_tpm)]<-a
@@ -28,7 +28,7 @@ for (gene in rownames(res_tumor_normal))
 
 
 # Add tisue type to data.frame
-read_counts_table_tpm_disc<-cbind(t(read_counts_table_tpm_disc),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm_disc),"Tissue.Type"])
+read_counts_table_tpm_disc<-cbind(t(df_read_counts_table_tpm_disc),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm_disc),"Tissue.Type"])
 
 # Save raw, tpm and discrete values11
 # write_xlsx(list(raw = read_counts_table, tpm = read_counts_table_tpm, discrete =discretizeDF(read_counts_table_tpm, default = list(method = "interval", breaks = 3, labels = c("low","medium", "high")))), path = paste(output_dir,"rpart_Tissue_Type.xlsx",sep=""))
@@ -44,23 +44,42 @@ dev.off()
 
 #########################################################################################################
 set.seed(123) # Define a semente para reprodutibilidade
-sample_ids_trainning<-sample(rownames(read_counts_table_tpm_disc), dim(read_counts_table_tpm_disc)[1]*0.75)
+sample_ids_trainning<-sample(rownames(read_counts_table_tpm_disc), dim(read_counts_table_tpm_disc)[1]*0.50)
 sample_ids_testing  <-rownames(read_counts_table_tpm_disc)[!rownames(read_counts_table_tpm_disc) %in% sample_ids_trainning]
 
-# Compute rpart model trainning only
-Tissue_Type_rpart<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc),method = "class")
+# 1. Configurar o método de reamostragem (Validação Cruzada)
+# define trainControl
+# Define train control parameters (e.g., 10-fold cross-validation)
+# Custom summary function for MRE 
+# Custom summary function for MRE
+mreSummary <- function(data, lev = NULL, model = NULL) {
+	rmse=rmse(data$obs, data$pred) 
+	mae=mae(data$obs, data$pred)
+	mre=mre(data$obs, data$pred) 
+	cor=cor(data$obs, data$pred)
+  c(MRE = mre, RMSE=rmse, MAE = mae, Cor=cor)
+}
+train_control <- trainControl(method = "cv", number = 10, verboseIter = TRUE, summaryFunction = mreSummary)
 
-#Predicted data
-predicted_training_set         <- as.vector(predict(Tissue_Type_rpart, newdata = data.frame(read_counts_table_tpm_disc), type = "class"))
+Tissue_Type_rpart_trainning<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_trainning,]),method = "class")
+Tissue_Type_rpart_testing  <-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_testing,]),method = "class")
 
-# Confusion matrix
-results_trainning <- confusionMatrix(data = factor(predicted_training_set), reference =  factor(data.frame(read_counts_table_tpm_disc)$Tissue_Type))
 
-write.table(data.frame(results_trainning$overall), file = paste(output_dir,"confusionMatrix_rpart.txt",sep=""),, sep = "\t", row.names = TRUE, append=FALSE)
-write.table(data.frame(results_trainning$table), file = paste(output_dir,"confusionMatrix_rpart.txt",sep=""),, sep = "\t", row.names = TRUE, append=TRUE)
+# 6. Model for combination of parameter
+predictions <- predict(Tissue_Type_rpart_testing, data.frame(read_counts_table_tpm_disc[sample_ids_testing,]), type = "class")
 
+# Confusion Matrix
+conf_matrix <- table(Actual = as.vector((read_counts_table_tpm_disc[sample_ids_testing,"Tissue_Type"])), Predicted = as.vector(predictions))
+# Accuracy calculation
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(accuracy)
 
 #########################################################################################################
+df_mean[c("ENSG00000277287.1","ENSG00000287325.1","ENSG00000140254.12","ENSG00000187094.12"),]
+
+levels(factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000277287.1"),]))))
+factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000287325.1"),])))
+factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000140254.12"),])))
+factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000187094.12"),])))
 
 
-[]
