@@ -1,11 +1,11 @@
 #########################################################################################################
 # Start data.frame
-df_read_counts_table_tpm_disc          <- data.frame(matrix("", nrow = length(rownames(read_counts_table_tpm)), ncol = length(colnames(read_counts_table_tpm))))
-df_read_counts_table_tpm_disc_no_label <- data.frame(matrix("", nrow = length(rownames(read_counts_table_tpm)), ncol = length(colnames(read_counts_table_tpm))))
+df_read_counts_table_tpm_disc          <- data.frame(matrix("", nrow = length(rownames(res_tumor_normal)), ncol = length(colnames(read_counts_table_tpm))))
+df_read_counts_table_tpm_disc_no_label <- data.frame(matrix("", nrow = length(rownames(res_tumor_normal)), ncol = length(colnames(read_counts_table_tpm))))
 
 # Set rownames()
-rownames(df_read_counts_table_tpm_disc)<-rownames(read_counts_table_tpm)
-rownames(df_read_counts_table_tpm_disc_no_label)<-rownames(read_counts_table_tpm)
+rownames(df_read_counts_table_tpm_disc)<-rownames(res_tumor_normal)
+rownames(df_read_counts_table_tpm_disc_no_label)<-rownames(res_tumor_normal)
 
 # Remove first collumn
 colnames(df_read_counts_table_tpm_disc)<-colnames(read_counts_table_tpm)
@@ -13,7 +13,7 @@ colnames(df_read_counts_table_tpm_disc_no_label)<-colnames(read_counts_table_tpm
 
 # Make data discrete
 # For each gene 
-for (gene in rownames(read_counts_table_tpm))
+for (gene in rownames(res_tumor_normal))
 {
   # Take the discrete value
   a=cut(as.vector(unlist(as.vector(read_counts_table_tpm[gene,]))), breaks = 3,labels = c("low","medium", "high") , include.lowest = TRUE)
