@@ -44,7 +44,7 @@ model_comb <-  caret::train(
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
   # Plot the bayesian network graph
-  fancyRpartPlot(model_comb, caption = NULL, sub=NULL)  
+  fancyRpartPlot(model_comb$finalModel, caption = NULL, sub=NULL)  
 dev.off()
 #########################################################################################################
 # Save rpart model
