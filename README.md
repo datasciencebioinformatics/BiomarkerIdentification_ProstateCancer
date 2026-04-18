@@ -20,13 +20,6 @@ source(paste(project_folder,"/code/Generate_read_counts_table.R",sep=""))
 ### 4- Differential expression analyss
 source(paste(project_folder,"/code/Differential_Expression_Analysis.R",sep=""))
 ###################################################################################################
-## Read differential expression results
-##### dds_tumor_normal<-loadRDS(file = file.path(project_folder, "/rsd","/dds_tumor_normal.rsd" ))
-##### res_tumor_normal<-loadRDS(file = file.path(project_folder, "/rsd","/res_tumor_normal.rsd" ))
-##### df_counts_table_tpm<-loadRDS(file = file.path(project_folder, "/rsd","/df_counts_table_tpm.rsd" ))
-##### df_counts_table_unstranded<-loadRDS(file = file.path(project_folder, "/rsd","/df_counts_table_unstranded.rsd" ))
-##### sample_sheet_data         <-loadRDS(file = file.path(project_folder, "/rsd","/sample_sheet_data.rsd" ))
-###################################################################################################
 
 ## Biomarker assessment
 ### 5- Biomarkers identification
