@@ -21,6 +21,8 @@ model_comb <-  caret::train(
   method = "rpart"
 )
 
+model_comb <- <- rpart(Tissue_Type ~, data = read_counts_table_tpm_disc)
+
 # Train the model using the 'rpart' method
 model_comb <-  caret::train(
   Tissue_Type ~ ., 
