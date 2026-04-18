@@ -34,7 +34,7 @@ read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tis
 
 #########################################################################################################
 # Re-fit model
-model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class")
+model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class", cp=0.001)
 
 
 # bwplot               
@@ -47,7 +47,9 @@ dev.off()
 ##### saveRDS(model_comb, file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
 ##### model_comb  <-loadRDS(file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
 #########################################################################################################
-write.table(df_mean[c("ENSG00000277287.1", "ENSG00000287325.1", "ENSG00000287325.1", "ENSG00000187094.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
+write.table(df_mean[c("ENSG00000277287.1", "ENSG00000287325.1", "ENSG00000140254.12", "ENSG00000187094.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
+
+
 
 
 
