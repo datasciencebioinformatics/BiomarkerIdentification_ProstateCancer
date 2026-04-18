@@ -33,6 +33,8 @@ read_counts_table_tpm_disc<-data.frame(cbind(t(read_counts_table_tpm[rownames(re
 read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
 
 #########################################################################################################
+train_control <- trainControl(method = "cv", number = 10, verboseIter = TRUE, summaryFunction = mreSummary)
+
 # Compute rpart model 
 mreSummary <- function(data, lev = NULL, model = NULL) {
 rmse=rmse(data$obs, data$pred) 
