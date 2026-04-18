@@ -22,6 +22,7 @@ model_comb <-  caret::train(
   trControl = trainControl(method = "cv", number = 10, summaryFunction = mreSummary), # 10-fold cross-validation
   tuneLength = 10                                       # Evaluate 10 different 'cp' values
 )
+saveRDS(model_comb, file = file.path(project_folder, "/rsd","/model_comb.rsd" ))
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
