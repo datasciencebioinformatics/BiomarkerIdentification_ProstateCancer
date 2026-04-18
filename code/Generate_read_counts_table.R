@@ -65,6 +65,12 @@ for (sample in rownames(sample_sheet_data))
   # Add to table tpm_unstranded
   read_counts_table_tpm<-cbind(read_counts_table_tpm,df_counts_table_tpm)  
 }
+# Set rownames unstranded
+rownames(read_counts_table)<-read_counts_table$gene_id
+
+# Set rownames unstranded
+rownames(read_counts_table_tpm)<-read_counts_table_tpm$gene_id
+
 # Remove first collumn unstranded
 read_counts_table<-read_counts_table[,-1]
 
