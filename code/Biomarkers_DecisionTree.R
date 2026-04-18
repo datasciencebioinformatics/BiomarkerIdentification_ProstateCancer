@@ -19,7 +19,7 @@ model_comb <-  caret::train(
   Tissue_Type ~ ., 
   data = read_counts_table_tpm_disc, 
   method = "rpart", 
-  tuneLength = 10                                       # Evaluate 10 different 'cp' values
+  tuneLength = 3                                       # Evaluate 10 different 'cp' values
 )
 # Save rpart model
 saveRDS(model_comb, file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
