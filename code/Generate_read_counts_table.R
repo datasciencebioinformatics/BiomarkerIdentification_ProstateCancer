@@ -74,3 +74,7 @@ read_counts_table_tpm<-read_counts_table_tpm[,-1]
 # 2. Save the object to an .rds file
 saveRDS(df_counts_table_unstranded, file = file.path(project_folder, "/rsd","/df_counts_table_unstranded.rsd" ))
 saveRDS(df_counts_table_tpm, file = file.path(project_folder, "/rsd","/df_counts_table_tpm.rsd" ))
+saveRDS(sample_sheet_data, file = file.path(project_folder, "/rsd","/sample_sheet_data.rsd" ))
+
+
+
