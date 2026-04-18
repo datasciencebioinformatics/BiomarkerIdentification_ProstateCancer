@@ -38,16 +38,16 @@ model_comb <-  caret::train(
   Tissue_Type ~ ., 
   data = read_counts_table_tpm_disc, 
   method = "rpart", 
-  tuneLength = 10                                       # Evaluate 10 different 'cp' values
+  trControl = trainControl(method = "cv", number = 3), 
+  control =   rpart.control(cp = 0)                                      # Evaluate 10 different 'cp' values
 )
 
-model_comb <- rpart( Tissue_Type ~ ., data = read_counts_table_tpm_disc, method = "class", cp= 0.0498)
-
+model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class", cp= 0)
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
   # Plot the bayesian network graph
-  fancyRpartPlot(model_comb$finalModel, caption = NULL, sub=NULL)  
+  fancyRpartPlot(model_comb, caption = NULL, sub=NULL)  
 dev.off()
 #########################################################################################################
 # Save rpart model
@@ -57,7 +57,7 @@ dev.off()
 
 
 
-write.table(df_mean[c("ENSG00000277287.1","ENSG00000287325.1","ENSG00000140254.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
+write.table(df_mean[c("ENSG00000277287.1", "ENSG00000287325.1", "ENSG00000140254.12", "ENSG00000187094.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
 
 
 levels(factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000277287.1"),]))))
