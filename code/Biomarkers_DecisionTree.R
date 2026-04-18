@@ -18,6 +18,13 @@ read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tis
 model_comb <-  caret::train(
   Tissue_Type ~ ., 
   data = read_counts_table_tpm_disc, 
+  method = "rpart"
+)
+
+# Train the model using the 'rpart' method
+model_comb <-  caret::train(
+  Tissue_Type ~ ., 
+  data = read_counts_table_tpm_disc, 
   method = "rpart", 
   tuneLength = 3                                       # Evaluate 10 different 'cp' values
 )
