@@ -11,6 +11,18 @@ read_counts_table_tpm_disc <- read_counts_table_tpm_disc[, sapply(read_counts_ta
 # Create bayesian networks
 bn_cancer_data <- tabu(data.frame(read_counts_table_tpm_disc))
 
+# Convert to igraph
+bn_cancer_igrap<-as.igraph(bn_cancer_data)
+
+# Select the edges
+bn_cancer_edges<-data.frame(as_data_frame(bn_cancer_igrap))
+
+# Keep only edged with GSTP1
+bn_GSTP1<-bn_cancer_edges[which(bn_cancer_edges$from == "ENSG00000084207.18" |  bn_cancer_edges$to == "ENSG00000084207.18" |  bn_cancer_edges$from == "Tissue_Type" |  bn_cancer_edges$to == "Tissue_Type"),]
+
+# Set bn_GSTP1
+bn_GSTP1<-graph_from_data_frame(bn_GSTP1)
+
 # Make a copy of correspondece table 
 correspondence_table_bck<-correspondence_table
 
@@ -21,10 +33,11 @@ correspondence_table_bck<-rbind(correspondence_table_bck,data.frame(gene_id="Tis
 rownames(correspondence_table_bck)<-correspondence_table_bck$gene_id
 
 
+
 # bwplot               
 png(filename=paste(output_dir,"Bayesian_Network_structure_Tissue_Type.png",sep=""), width = 25, height = 25, res=600, units = "cm")  
   # Plot the bayesian network graph
-  plot(as.igraph(bn_cancer_data), layout=layout_with_fr, vertex.label =correspondence_table_bck[V(as.igraph(bn_cancer_data))$name,"gene_name"], vertex.size = 20)
+  plot(bn_GSTP1, layout=layout_with_fr, vertex.label =correspondence_table_bck[V(bn_GSTP1)$name,"gene_name"], vertex.size = 20)
 dev.off()
 #########################################################################################################
 
