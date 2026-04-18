@@ -33,35 +33,13 @@ read_counts_table_tpm_disc<-data.frame(cbind(t(read_counts_table_tpm[rownames(re
 read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
 
 #########################################################################################################
-train_control <- trainControl(method = "cv", number = 10, verboseIter = TRUE, summaryFunction = mreSummary)
-
-# Compute rpart model 
-mreSummary <- function(data, lev = NULL, model = NULL) {
-rmse=rmse(data$obs, data$pred) 
-mae=mae(data$obs, data$pred)
-mre=mre(data$obs, data$pred) 
-cor=cor(data$obs, data$pred)
-c(MRE = mre, RMSE=rmse, MAE = mae, Cor=cor)
-}
-#########################################################################################################
-# Train the model using the 'rpart' method
-model_comb <-  caret::train(
-  Tissue_Type ~ ., 
-  data = read_counts_table_tpm_disc, 
-  method = "rpart"
-)
-
-model_comb <- <- rpart(Tissue_Type ~, data = read_counts_table_tpm_disc)
-
 # Train the model using the 'rpart' method
 model_comb <-  caret::train(
   Tissue_Type ~ ., 
   data = read_counts_table_tpm_disc, 
   method = "rpart", 
-  tuneLength = 3                                       # Evaluate 10 different 'cp' values
+  tuneLength = 10                                       # Evaluate 10 different 'cp' values
 )
-# Save rpart model
-saveRDS(model_comb, file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
@@ -69,6 +47,32 @@ png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, heigh
   fancyRpartPlot(model_comb, caption = NULL, sub=NULL)  
 dev.off()
 #########################################################################################################
+set.seed(123) # Define a semente para reprodutibilidade
+sample_ids_trainning<-sample(rownames(read_counts_table_tpm_disc), dim(read_counts_table_tpm_disc)[1]*0.50)
+sample_ids_testing  <-rownames(read_counts_table_tpm_disc)[!rownames(read_counts_table_tpm_disc) %in% sample_ids_trainning]
+
+Tissue_Type_rpart_trainning<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_trainning,]),method = "class")
+Tissue_Type_rpart_testing  <-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc[sample_ids_testing,]),method = "class")
+
+# Fit model with trainning data
+model_comb_trainning <-  caret::train(
+  Tissue_Type ~ ., 
+  data = read_counts_table_tpm_disc[sample_ids_trainning,], 
+  method = "rpart", 
+  tuneLength = 10                                     
+)
+
+
+# 6. Model for combination of parameter
+predictions <- predict(model_comb_trainning, data.frame(read_counts_table_tpm_disc[sample_ids_testing,]), type = "class")
+
+# Confusion Matrix
+conf_matrix <- table(Actual = as.vector((read_counts_table_tpm_disc[sample_ids_testing,"Tissue_Type"])), Predicted = as.vector(predictions))
+# Accuracy calculation
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(accuracy)
+#########################################################################################################
+
 df_mean[c("ENSG00000277287.1","ENSG00000287325.1","ENSG00000140254.12","ENSG00000187094.12"),]
 
 levels(factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000277287.1"),]))))
