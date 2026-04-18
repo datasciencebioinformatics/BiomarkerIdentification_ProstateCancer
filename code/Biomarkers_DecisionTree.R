@@ -33,16 +33,9 @@ read_counts_table_tpm_disc<-data.frame(cbind(t(df_read_counts_table_tpm_disc[row
 read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
 
 #########################################################################################################
-# Train the model using the 'rpart' method
-model_comb <-  caret::train(
-  Tissue_Type ~ ., 
-  data = read_counts_table_tpm_disc, 
-  method = "rpart", 
-  trControl = trainControl(method = "cv", number = 3), 
-  control =   rpart.control(cp = 0)                                      # Evaluate 10 different 'cp' values
-)
+# Re-fit model
+model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class")
 
-model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class", cp= 0)
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
@@ -54,15 +47,8 @@ dev.off()
 ##### saveRDS(model_comb, file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
 ##### model_comb  <-loadRDS(file = file.path(project_folder, "/rsd","/model_rpart_comb.rsd" ))
 #########################################################################################################
+write.table(df_mean[c("ENSG00000277287.1", "ENSG00000287325.1", "ENSG00000287325.1", "ENSG00000187094.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
 
 
-
-write.table(df_mean[c("ENSG00000277287.1", "ENSG00000287325.1", "ENSG00000140254.12", "ENSG00000187094.12"),], file.path(output_dir, "/model_rpart_comb.txt" ), sep = "\t", row.names = TRUE)
-
-
-levels(factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000277287.1"),]))))
-factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000287325.1"),])))
-factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000140254.12"),])))
-factor(as.vector(unlist(df_read_counts_table_tpm_disc_no_label[c("ENSG00000187094.12"),])))
 
 
