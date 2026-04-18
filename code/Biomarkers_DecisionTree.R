@@ -28,13 +28,33 @@ for (gene in rownames(res_tumor_normal))
 
 
 # Add tisue type to data.frame
-read_counts_table_tpm_disc<-cbind(t(df_read_counts_table_tpm_disc),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm_disc),"Tissue.Type"])
+read_counts_table_tpm_disc<-data.frame(cbind(t(read_counts_table_tpm[rownames(res_tumor_normal),]),Tissue_Type=sample_sheet_data[rownames(read_counts_table_tpm_disc),"Tissue.Type"]))
+
+read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
+
 
 # Save raw, tpm and discrete values11
 # write_xlsx(list(raw = read_counts_table, tpm = read_counts_table_tpm, discrete =discretizeDF(read_counts_table_tpm, default = list(method = "interval", breaks = 3, labels = c("low","medium", "high")))), path = paste(output_dir,"rpart_Tissue_Type.xlsx",sep=""))
 #########################################################################################################
 # Compute rpart model 
-Tissue_Type_rpart<-rpart(formula=Tissue_Type ~ ., data=data.frame(read_counts_table_tpm_disc),method = "class")
+mreSummary <- function(data, lev = NULL, model = NULL) {
+rmse=rmse(data$obs, data$pred) 
+mae=mae(data$obs, data$pred)
+mre=mre(data$obs, data$pred) 
+cor=cor(data$obs, data$pred)
+c(MRE = mre, RMSE=rmse, MAE = mae, Cor=cor)
+}
+
+# Train the model using the 'rpart' method
+model_comb <-  caret::train(
+  Tissue_Type ~ ., 
+  data = read_counts_table_tpm_disc, 
+  method = "rpart", 
+  trControl = trainControl(method = "cv", number = 10, summaryFunction = mreSummary), # 10-fold cross-validation
+  tuneLength = 10                                       # Evaluate 10 different 'cp' values
+)
+
+
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
