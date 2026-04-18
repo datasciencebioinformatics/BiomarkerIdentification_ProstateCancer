@@ -27,7 +27,7 @@ for (gene in rownames(res_tumor_normal))
 }
 
 # Add tisue type to data.frame
-read_counts_table_tpm_disc<-data.frame(cbind(t(read_counts_table_tpm[rownames(res_tumor_normal),]),Tissue_Type=sample_sheet_data[colnames(read_counts_table_tpm),"Tissue.Type"]))
+read_counts_table_tpm_disc<-data.frame(cbind(t(df_read_counts_table_tpm_disc[rownames(res_tumor_normal),]),Tissue_Type=sample_sheet_data[colnames(df_read_counts_table_tpm_disc),"Tissue.Type"]))
 
 # Set the Tissue_Type collumn as factor
 read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
@@ -40,6 +40,9 @@ model_comb <-  caret::train(
   method = "rpart", 
   tuneLength = 10                                       # Evaluate 10 different 'cp' values
 )
+
+model_comb <- rpart( Tissue_Type ~ ., data = read_counts_table_tpm_disc, method = "class", cp= 0.0498)
+
 
 # bwplot               
 png(filename=paste(output_dir,"rpart_Tissue_Type.png",sep=""), width = 15, height = 15, res=600, units = "cm")  
