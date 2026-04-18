@@ -32,6 +32,10 @@ read_counts_table_tpm_disc<-data.frame(cbind(t(df_read_counts_table_tpm_disc[row
 # Set the Tissue_Type collumn as factor
 read_counts_table_tpm_disc$Tissue_Type<-as.factor(read_counts_table_tpm_disc$Tissue_Type)
 
+# Convert to factors - check this
+# read_counts_table_tpm_disc[sapply(read_counts_table_tpm_disc, is.character)] <- lapply(read_counts_table_tpm_disc[sapply(read_counts_table_tpm_disc, is.character)], as.factor)
+
+
 #########################################################################################################
 # Re-fit model
 model_comb <-rpart(formula=Tissue_Type ~ ., data=read_counts_table_tpm_disc,method = "class", cp=0.001)
